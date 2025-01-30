@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application - Alpharetta High School Job Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f7fafc;
+        }
+
+        /* Header styles */
+        header {
+            background-color: #ff0f3f;
+            color: #fff;
+            padding: 1rem 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style-type: none;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* Existing styles */
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        textarea {
+            height: 100px;
+        }
+
+        button[type="submit"] {
+            background-color: #ff0f3f;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #e00c36;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 30px;
+            border: 3px solid #ff0f3f; /* Updated border style */
+            width: 90%;
+            max-width: 500px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #ff0f3f;
+            text-decoration: none;
+        }
+
+        #confettiCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        #closePopup { /* Added button style */
+            background-color: #ff0f3f;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        #closePopup:hover {
+            background-color: #e00c36;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1 class="logo">Alpharetta High School</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="available_jobs.html">Available Jobs</a></li>
+                    <li><a href="post_job.html">Post a Job</a></li>
+                    <li><a href="resources.html">Resources</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="contact_page.html">Contact</a></li>
+                    <li><a href="admin.html">Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1 id="applicationTitle">Job Application</h1>
+        <form id="applicationForm">
+            <label for="fullName">Full Name:</label>
+            <input type="text" id="fullName" name="fullName" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob" required>
+
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" required placeholder="Street Address">
+
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" required>
+
+            <label for="state">State:</label>
+            <input type="text" id="state" name="state" required>
+
+            <label for="zipCode">ZIP Code:</label>
+            <input type="text" id="zipCode" name="zipCode" required>
+
+            <label for="education">Highest Level of Education:</label>
+            <select id="education" name="education" required>
+                <option value="">Select</option>
+                <option value="High School">High School</option>
+                <option value="Associate's Degree">Associate's Degree</option>
+                <option value="Bachelor's Degree">Bachelor's Degree</option>
+                <option value="Master's Degree">Master's Degree</option>
+                <option value="Doctorate">Doctorate</option>
+            </select>
+
+            <label for="coverLetter">Cover Letter:</label>
+            <textarea id="coverLetter" name="coverLetter" required></textarea>
+
+            <label for="employmentHistory">Employment History:</label>
+            <textarea id="employmentHistory" name="employmentHistory" required></textarea>
+
+            <label for="skills">Skills and Certifications:</label>
+            <textarea id="skills" name="skills" required></textarea>
+
+            <label for="leadership">Examples of Leadership:</label>
+            <textarea id="leadership" name="leadership" required></textarea>
+
+            <label for="whyWork">Why do you want to work here?</label>
+            <textarea id="whyWork" name="whyWork" required></textarea>
+
+            <label for="expectedSalary">Expected Salary:</label>
+            <input type="text" id="expectedSalary" name="expectedSalary" required>
+
+            <label for="bestSkills">What skills make you the best candidate for this position?</label>
+            <textarea id="bestSkills" name="bestSkills" required></textarea>
+
+            <label for="motivations">What motivations inspire you at work?</label>
+            <textarea id="motivations" name="motivations" required></textarea>
+
+            <label for="resume">Upload Your Resume:</label>
+            <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
+
+            <button type="submit">Submit Application</button>
+        </form>
+    </div>
+
+    <div id="congratulationsPopup" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Congratulations!</h2>
+            <p>Your application has been submitted successfully.</p>
+            <p>Please check your email regularly for updates on your application status.</p> <button id="closePopup" class="btn">Close</button>
+        </div>
+    </div>
+    <canvas id="confettiCanvas"></canvas>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyB1sZ7M-2gC5g4HTvdMDIOUNcKmK940Em8",
+            authDomain: "fbla-d5bbf.firebaseapp.com",
+            databaseURL: "https://fbla-d5bbf-default-rtdb.firebaseio.com",
+            projectId: "fbla-d5bbf",
+            storageBucket: "fbla-d5bbf.firebasestorage.app",
+            messagingSenderId: "561307380239",
+            appId: "1:561307380239:web:990ed26c1a8ae82771d17a",
+            measurementId: "G-LY89MRVSYT"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const company = urlParams.get('company');
+            const position = urlParams.get('position');
+
+            if (company && position) {
+                document.getElementById('applicationTitle').textContent = `${position} at ${company} Application Form`;
+            }
+
+            document.getElementById('applicationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(e.target);
+                const applicationData = Object.fromEntries(formData);
+                
+                // Add company and position to the application data
+                applicationData.company = company;
+                applicationData.position = position;
+                applicationData.timestamp = Date.now();
+
+                // Send data to Firebase
+                const applicationsRef = ref(db, 'applications');
+                push(applicationsRef, applicationData)
+                    .then(() => {
+                        showCongratulationsPopup();
+                        e.target.reset(); // Reset the form
+                    })
+                    .catch((error) => {
+                        console.error("Error submitting application: ", error);
+                        alert('An error occurred while submitting your application. Please try again.');
+                    });
+            });
+
+            // Confetti animation
+            const canvas = document.getElementById('confettiCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const confetti = [];
+
+            function createConfetti() {
+                for (let i = 0; i < 200; i++) {
+                    confetti.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        size: Math.random() * 5 + 1,
+                        color: `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`,
+                        speed: Math.random() * 3 + 1
+                    });
+                }
+            }
+
+            function drawConfetti() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                confetti.forEach((c, index) => {
+                    ctx.beginPath();
+                    ctx.arc(c.x, c.y, c.size, 0, 2 * Math.PI);
+                    ctx.fillStyle = c.color;
+                    ctx.fill();
+
+                    c.y += c.speed;
+
+                    if (c.y > canvas.height) {
+                        confetti.splice(index, 1);
+                    }
+                });
+
+                if (confetti.length > 0) {
+                    requestAnimationFrame(drawConfetti);
+                }
+            }
+
+            function showCongratulationsPopup() {
+                const popup = document.getElementById('congratulationsPopup');
+                popup.style.display = 'block';
+                createConfetti();
+                drawConfetti();
+            }
+
+            function closePopupAndRedirect() {
+                const popup = document.getElementById('congratulationsPopup');
+                popup.style.display = 'none';
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                window.location.href = 'available_jobs.html';
+            }
+
+            document.querySelector('.close').addEventListener('click', closePopupAndRedirect);
+            document.getElementById('closePopup').addEventListener('click', closePopupAndRedirect);
+
+            // Close modal when clicking outside of it
+            window.onclick = function(event) {
+                const popup = document.getElementById('congratulationsPopup');
+                if (event.target == popup) {
+                    closePopupAndRedirect();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+

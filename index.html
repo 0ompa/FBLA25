@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alpharetta High School Job Portal</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    rel="stylesheet"
+  />
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"
+  ></script>
+  <style>
+    .student-reviews {
+      padding: 4rem 0;
+      background-color: #f7fafc;
+    }
+
+    .student-reviews h3 {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #333;
+    }
+
+    .review-slideshow {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .review-slideshow-inner {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .review-slide {
+      flex: 0 0 100%;
+      display: flex;
+    }
+
+    .review-widget {
+      flex: 0 0 50%;
+      padding: 1rem;
+    }
+
+    .review-content {
+      background-color: #fff;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .review-author {
+      font-weight: bold;
+      margin-top: 1rem;
+      color: #ff0f3f;
+    }
+
+    .slideshow-dots {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #ccc;
+      margin: 0 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .dot.active {
+      background-color: #ff0f3f;
+    }
+    .bg-gradient-to-r {
+      background-image: linear-gradient(to right, var(--tw-gradient-stops));
+    }
+    .from-red-600 {
+      --tw-gradient-from: #3713c9;
+      --tw-gradient-stops: var(--tw-gradient-from),
+        var(--tw-gradient-to, rgb(220 38 38 / 0));
+    }
+    .to-red-800 {
+      --tw-gradient-to: #ef6060;
+    }
+    @keyframes float {
+      0%,
+      100% {
+        transform: translate(0, 0);
+      }
+      50% {
+        transform: translate(10px, -10px);
+      }
+    }
+    .career-image-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .career-image-wrapper {
+      width: 100%;
+      height: 100%;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .career-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 20px;
+    }
+
+    @keyframes float {
+      0%,
+      100% {
+        transform: translate(0, 0);
+      }
+      50% {
+        transform: translate(10px, -10px);
+      }
+    }
+    #careerImage {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120%;
+      height: 120%;
+      object-fit: cover;
+    }
+    .blob-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      animation: float 6s ease-in-out infinite;
+    }
+    .blob-shape {
+      width: 100%;
+      height: 100%;
+      fill: white;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Nunito", sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f7fafc;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      border-radius: 1rem;
+    }
+
+    header {
+      background-color: #ff0f3f;
+      color: #fff;
+      padding: 1rem 0;
+      border-radius: 0;
+    }
+
+    .header-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    nav ul {
+      display: flex;
+      list-style-type: none;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    
+
+    nav ul li {
+      margin: 0 1rem;
+    }
+
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+
+    .hero {
+      display: block;
+      visibility: visible;
+      opacity: 1;
+      background-color: #f7fafc;
+      text-align: center;
+      padding: 4rem 0;
+      animation: fadeIn 1s ease-out;
+      border-radius: 0;
+    }
+
+    .hero h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .featured-jobs {
+      padding: 4rem 0;
+      font-weight: bold;
+      animation: slideInFromBottom 1s ease-out;
+    }
+
+    .featured-jobs h3 {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .job-slideshow {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .job-slideshow-inner {
+      display: flex;
+      height: 100%;
+      transition: transform 0.5s ease;
+    }
+
+    .job-widget {
+      flex: 0 0 100%;
+      height: 100%;
+      padding: 0;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      border-radius: 1rem;
+    }
+
+    .job-widget img {
+      width: 100%;
+      max-height: 40vh;
+      object-fit: cover;
+      border-radius: 0.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .job-widget h4 {
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .job-widget p {
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+
+    .slideshow-controls {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    /* CSS Styles for Slideshow Controls Button */
+    .slideshow-controls button {
+      background-color: #ff0f3f;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      margin: 0 0.5rem;
+      border-radius: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    /* CSS Styles for Slideshow Controls Button: Hover Effect */
+
+    .slideshow-controls button:hover {
+      background-color: #e00c36;
+    }
+
+    /* CSS Styles for Partners Section */
+    .partners {
+      padding: 4rem 0;
+      font-size: 1.5rem;
+      font-weight: bold;
+      background-color: #fff;
+      text-align: center;
+      border-radius: 1rem;
+    }
+
+    /* CSS Styles for Partners Section Carousel Animation */
+    .carousel {
+      display: flex;
+      overflow: hidden;
+      width: 100%;
+      margin: 0 auto;
+      border-radius: 1rem;
+    }
+
+    .carousel-inner {
+      display: flex;
+      transition: transform 0.02s linear;
+    }
+
+    .carousel-item {
+      flex: 0 0 20%;
+      padding: 1rem;
+    }
+
+    .carousel-item img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 1rem;
+    }
+
+    .cta {
+      background-color: #ff0f3f;
+      color: #fff;
+      text-align: center;
+      padding: 4rem 0;
+      animation: fadeIn 1s ease-out;
+      border-radius: 1rem;
+    }
+
+    .cta h3 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .cta p {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    footer {
+      background-color: #2d2d2d;
+      color: #ffffff;
+      padding: 3rem 0;
+      margin-top: 2rem;
+    }
+
+    .footer-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .footer-section h3 {
+      color: #ff0000;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      font-weight: bold;
+    }
+
+    .footer-section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-section a {
+      color: #ffffff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-section a:hover {
+      color: #ff0000;
+    }
+
+    .contact-section h4 {
+      color: #ff0000;
+      font-size: 1.2rem;
+      margin: 1.5rem 0 1rem;
+    }
+
+    .contact-section p {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .social-links img {
+      width: 24px;
+      height: 24px;
+      vertical-align: middle;
+      margin-right: 0.5rem;
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid #444;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: #ff0f3f;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border-radius: 1rem;
+      font-weight: bold;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #e00c36;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background-color: #ff4d71;
+    }
+
+    .btn-secondary:hover {
+      background-color: #ff3357;
+    }
+    .job-widget .btn {
+      align-self: flex-start;
+      margin-top: auto;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideInFromBottom {
+      from {
+        transform: translateY(50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .loader-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .loader {
+      width: 80px;
+      aspect-ratio: 1.154;
+      clip-path: polygon(50% 0, 100% 100%, 0 100%);
+      --c: no-repeat linear-gradient(#f03355 0 0);
+      background: var(--c), var(--c), var(--c), var(--c), var(--c);
+      background-size: 100% calc(100% / 5 + 1px);
+      animation: l15 1s infinite;
+    }
+
+    @keyframes l15 {
+      0% {
+        background-position: 0 calc(-2 * 100% / 4),
+          0 calc(-2 * 100% / 4),
+          0 calc(-2 * 100% / 4),
+          0 calc(-2 * 100% / 4),
+          0 calc(-2 * 100% / 4);
+      }
+      20% {
+        background-position: 0 calc(4 * 100% / 4),
+          0 calc(-2 * 100% / 4),
+          0 calc(-2 * 100% / 4),
+          0 calc(-2 * 100% / 4),
+          0 calc(-2 * 100% / 4);
+      }
+      40% {
+        background-position: 0 calc(4 * 100% / 4),
+          0 calc(3 * 100% / 4),
+          0 calc(-2 * 100% / 4),
+          0 calc(-2 * 100% / 4),
+          0 calc(-2 * 100% / 4);
+      }
+      60% {
+        background-position: 0 calc(4 * 100% / 4),
+          0 calc(3 * 100% / 4),
+          0 calc(2 * 100% / 4),
+          0 calc(-2 * 100% / 4),
+          0 calc(-2 * 100% / 4);
+      }
+      80% {
+        background-position: 0 calc(4 * 100% / 4),
+          0 calc(3 * 100% / 4),
+          0 calc(2 * 100% / 4),
+          0 calc(1 * 100% / 4),
+          0 calc(-2 * 100% / 4);
+      }
+      100% {
+        background-position: 0 calc(4 * 100% / 4),
+          0 calc(3 * 100% / 4),
+          0 calc(2 * 100% / 4),
+          0 calc(1 * 100% / 4),
+          0 calc(0 * 100% / 4);
+      }
+    }
+
+    .animated-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .wave {
+      position: absolute;
+      width: 200%;
+      height: 100%;
+      background: rgba(255, 15, 63, 0.03);
+      border-radius: 50%;
+    }
+
+    /* ----------------------------------
+       FIXED & UPDATED CODE BELOW
+       For rotating triangle & red ball
+    ----------------------------------- */
+    .triangle-and-ball-container {
+      /* Make sure it's behind everything and fills the screen */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -2; /* behind waves & content */
+      overflow: hidden;
+    }
+
+    .rotating-triangle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      /* Large triangle */
+      border-left: 150px solid transparent;
+      border-right: 150px solid transparent;
+      border-bottom: 300px solid rgba(255, 15, 63, 0.15);
+      transform: translate(-50%, -50%);
+      animation: rotateTriangle 15s linear infinite;
+    }
+    @keyframes rotateTriangle {
+      0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+      }
+      100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
+    }
+
+    /* Red ball orbits around the triangle's center */
+    .red-ball {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 40px;
+      height: 40px;
+      background-color: rgba(255, 15, 63, 0.3);
+      border-radius: 50%;
+      /* We anchor the ball at about the apex of the triangle
+         and let it rotate. */
+      transform-origin: center -150px;
+      animation: orbitBall 6s ease-in-out infinite;
+    }
+    @keyframes orbitBall {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="animated-background" id="animatedBackground">
+    <!-- Rotating Triangle & Red Ball Container -->
+    <div class="triangle-and-ball-container">
+      <div class="rotating-triangle">
+        <div class="red-ball"></div>
+      </div>
+    </div>
+  </div>
+  <div class="loader-container">
+    <div class="loader"></div>
+  </div>
+
+  <header>
+    <div class="container header-content flex items-center">
+      <img src="FBLA25_transparentLogo.png" alt="Logo" class="h-12 w-12 mr-4" />
+      <h1 class="logo">Alpharetta High School Guidance Department</h1>
+    </div>
+    <nav>
+      <ul class="flex justify-center mt-4">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="available_jobs.html">Available Jobs</a></li>
+        <li><a href="post_job.html">Post a Job</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="contact_page.html">Contact</a></li>
+        <li><a href="admin.html">Admin</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero bg-gradient-to-r from-red-600 to-red-800 text-white py-20">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row items-center justify-between">
+          <div class="md:w-1/2 mb-10 md:mb-0">
+            <h2 id="heroTitle" class="text-4xl md:text-6xl font-bold mb-4">
+              Find Your Career Path
+            </h2>
+            <p class="text-xl mb-8">
+              Discover opportunities in
+              <span id="careerPath" class="font-bold">Technology</span>
+            </p>
+            <a
+              href="available_jobs.html"
+              class="bg-white text-red-600 font-bold py-3 px-6 rounded-full hover:bg-red-100 transition duration-300"
+              >Explore Jobs</a
+            >
+          </div>
+          <div class="md:w-1/2">
+            <div class="relative w-full h-64 md:h-96">
+              <div class="career-image-container">
+                <div class="career-image-wrapper">
+                  <img
+                    src="https://images.squarespace-cdn.com/content/v1/54d699e8e4b08103548e40bd/1596639269453-6PJVZ0V57J2W2AC1B085/Teenage+school+kids+smiling+to+camera+in+school+corridor.jpg?format=2500w"
+                    alt="Career Path"
+                    class="career-image"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="featured-jobs">
+      <div class="container">
+        <h3>Featured Job Opportunities</h3>
+        <div class="job-slideshow">
+          <div class="job-slideshow-inner" id="jobSlideshow">
+            <!-- Job widgets will be dynamically inserted here -->
+          </div>
+        </div>
+        <div class="slideshow-controls">
+          <button id="prevJob"><</button>
+          <button id="nextJob">></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="student-reviews">
+      <div class="container">
+        <h3>Student Reviews</h3>
+        <div class="review-slideshow">
+          <div class="review-slideshow-inner" id="reviewSlideshow">
+            <!-- Review widgets will be dynamically inserted here -->
+          </div>
+          <div class="slideshow-dots">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
+            <span class="dot" data-index="3"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="partners">
+      <div class="container">
+        <h3>Our Partners</h3>
+        <div class="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item">
+              <img
+                src="https://lh6.googleusercontent.com/proxy/_jxO4a4oOeKyDWoqDT_inUMgv-XQ7PTtC7Wz8tvyOGGLiEnzGtNKxJjGeucuafjBc-B3vqSUUO7dhF3A6cuklMrvTazuGorHM9vPAsWpFg"
+                alt="Partner 1"
+              />
+            </div>
+            <div class="carousel-item">
+              <img
+                src="https://brightlocal-cb.s3.amazonaws.com/prod/10021/780520/companyLogoUrl.jpg"
+                alt="Partner 2"
+              />
+            </div>
+            <div class="carousel-item">
+              <img
+                src="https://s26378.pcdn.co/wp-content/uploads/c2_logo-1.png"
+                alt="Partner 3"
+              />
+            </div>
+            <div class="carousel-item">
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPzGI-VENW9D-EDC6A8kWtDbJdeadAeAYEBg&s"
+                alt="Partner 4"
+              />
+            </div>
+            <div class="carousel-item">
+              <img
+                src="https://peachtreecollegeplanning.com/wp-content/uploads/2015/11/PeachtreeCollegePlanning-Logo-web.png"
+                alt="Partner 5"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container">
+        <h3>Ready to Find Your Perfect Job?</h3>
+        <p>
+          Browse our extensive list of job opportunities tailored for high
+          school students.
+        </p>
+        <div style="display: flex; justify-content: center; align-items: center; min-height: 50vh;">
+            <img src="FBLA25 logo.jpg" style="width: 350px; height: 350px; border-radius: 50%; object-fit: cover;">
+        </div>
+        
+        <a href="available_jobs.html" class="btn btn-secondary"
+          >View All Jobs</a
+        >
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="available_jobs.html">Available Jobs</a></li>
+          <li><a href="post_job.html">Post a Job</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact_page.html">Contact</a></li>
+          <li><a href="admin.html">Admin</a></li>
+          <li><a href="sources.html">Sources</a></li>
+        </ul>
+      </div>
+      <div class="footer-section contact-section">
+        <h3>Contact</h3>
+        <h4>Phone Numbers</h4>
+        <p>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="red"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"
+            />
+          </svg>
+          +123-456-7892
+        </p>
+        <p>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="red"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"
+            />
+          </svg>
+          +111-222-3333
+        </p>
+        <h4>Email</h4>
+        <p>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="red"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"
+            />
+          </svg>
+          info@alpharettahs.edu
+        </p>
+        <p>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="red"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"
+            />
+          </svg>
+          support@alpharettahs.edu
+        </p>
+      </div>
+      <div class="footer-section">
+        <h3>Follow Us</h3>
+        <div class="social-links">
+          <a href="https://www.instagram.com/alpharettahs/" title="Instagram">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"
+              />
+            </svg>
+            Instagram
+          </a>
+        </div>
+        <div class="social-links">
+          <a href="https://x.com/alpharettahs1" title="Twitter">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"
+              />
+            </svg>
+            Twitter
+          </a>
+        </div>
+        <div class="social-links">
+          <a href="https://www.youtube.com/@AHSMorningShow/featured" title="YouTube">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"
+              />
+            </svg>
+            YouTube
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2025 Alpharetta High School Job Portal. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+  <script>
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        document.querySelector(".loader-container").style.display = "none";
+        document.querySelector("body").style.overflow = "visible";
+        populateFeaturedJobs();
+        cloneCarouselItems();
+        animateCarousel();
+        createAnimatedBackground();
+      }, 3000); // 3 seconds
+    });
+
+    function populateFeaturedJobs() {
+      const featuredJobsData = [
+        {
+          title: "Summer Camp Counselor",
+          company: "Alpharetta Parks and Recreation",
+          description:
+            "Alpharetta Parks and Recreation is a cornerstone of the local community, dedicated to enriching lives through a wide variety of recreational programs and services. Our mission is to provide opportunities for residents of all ages to connect, grow, and thrive in a welcoming and inclusive environment. From maintaining beautiful parks and trails to hosting engaging classes, sports leagues, and cultural events, we are committed to creating spaces where the community can come together and create lasting memories. Our summer camps are one of our most cherished programs, offering children a safe and exciting environment to explore, learn, and make new friends. With a focus on creativity, teamwork, and personal growth, our camps foster a sense of belonging and adventure, ensuring a summer full of fun and unforgettable experiences. We believe in the power of recreation to inspire, and we are proud to be a vital part of the Alpharetta community.<br /><br />For more information, please contact us:<br />Email: info@alphaparksrec.org<br />Website: www.alphaparksrec.org<br />Phone: (555) 123-4567.",
+          requirements:
+            "Must be at least 16 years old, CPR certified, and available for the entire summer season.",
+        },
+        {
+          title: "Retail Associate",
+          company: "North Point Mall",
+          description:
+            "Join North Point Mall, a hub for shopping, entertainment, and community activities in Alpharetta. Our retail associates play a vital role in creating a welcoming shopping experience by assisting customers, managing inventory, and maintaining a clean and organized store environment. This position offers an excellent opportunity to develop strong communication, customer service, and problem-solving skills, all while working in a dynamic and fast-paced retail setting. You will have the chance to interact with a wide range of customers, helping them find the products they need and ensuring they leave with a positive impression of North Point Mall. As a part of our team, you will also receive training in sales techniques, product knowledge, and customer service best practices. Whether you're looking to start a career in retail or simply gain valuable work experience, this position is perfect for anyone who enjoys working with people and thrives in a busy, team-oriented environment.<br /><br />For more information, please contact us:<br />Email: careers@northpointmall.com<br />Website: www.northpointmall.com<br />Phone: (555) 987-6543.",
+          requirements:
+            "No prior experience required. Must be able to work flexible hours, including weekends and holidays.",
+        },
+        {
+          title: "Restaurant Server",
+          company: "Local Restaurants",
+          description:
+            "Work with some of the best dining establishments in the area! As a restaurant server, you will take orders, serve food and beverages, and ensure that every customer has a positive dining experience. This is a great opportunity to earn tips, gain valuable work experience, and learn about the food and hospitality industry. The role offers a chance to develop teamwork and multitasking skills in a fast-paced and customer-focused environment. You'll have the opportunity to engage with guests, provide recommendations, and ensure all needs are met during their meal. Our restaurant partners pride themselves on offering a welcoming atmosphere for both staff and customers, ensuring you have a fun and rewarding work experience. Additionally, you'll receive training in food safety, serving techniques, and how to create a memorable dining experience for guests. Whether you're just starting your career in hospitality or looking to expand your skills, this role is a fantastic opportunity to work in an exciting industry.<br /><br />For more information, please contact us:<br />Email: info@localrestaurantsjobs.com<br />Website: www.localrestaurantsjobs.com<br />Phone: (555) 456-7890.",
+          requirements:
+            "Must be at least 16 years old. Food handler's certification preferred but not required. Strong communication skills and ability to work in a team.",
+        },
+      ];
+
+      const jobSlideshow = document.getElementById("jobSlideshow");
+      featuredJobsData.forEach((job) => {
+        const jobWidget = document.createElement("div");
+        jobWidget.classList.add("job-widget");
+        jobWidget.innerHTML = `
+          <h4>${job.title}</h4>
+          <p><strong>${job.company}</strong></p>
+          <p>${job.description}</p>
+          <p><strong>Requirements:</strong> ${job.requirements}</p>
+          <a href="available_jobs.html" class="btn">Learn More</a>
+        `;
+        jobSlideshow.appendChild(jobWidget);
+      });
+
+      initializeSlideshow();
+    }
+
+    function initializeSlideshow() {
+      const slideshow = document.querySelector(".job-slideshow-inner");
+      const slides = document.querySelectorAll(".job-widget");
+      const prevButton = document.getElementById("prevJob");
+      const nextButton = document.getElementById("nextJob");
+      let currentIndex = 0;
+
+      function showSlide(index) {
+        slideshow.style.transform = `translateX(-${index * 100}%)`;
+      }
+
+      function nextSlide() {
+        currentIndex = (currentIndex + 1) % slides.length;
+        showSlide(currentIndex);
+      }
+
+      function prevSlide() {
+        currentIndex =
+          (currentIndex - 1 + slides.length) % slides.length;
+        showSlide(currentIndex);
+      }
+
+      nextButton.addEventListener("click", nextSlide);
+      prevButton.addEventListener("click", prevSlide);
+
+      // Auto-advance slideshow
+      setInterval(nextSlide, 8000);
+    }
+
+    function cloneCarouselItems() {
+      const carouselInner = document.querySelector(".carousel-inner");
+      const carouselItems =
+        carouselInner.querySelectorAll(".carousel-item");
+      carouselItems.forEach((item) => {
+        const clone = item.cloneNode(true);
+        carouselInner.appendChild(clone);
+      });
+    }
+
+    function animateCarousel() {
+      const carouselInner = document.querySelector(".carousel-inner");
+      let position = 0;
+      const speed = 1;
+      const totalWidth = carouselInner.scrollWidth;
+
+      function step() {
+        position += speed;
+        if (position > totalWidth / 2) {
+          position = 0;
+        }
+        carouselInner.style.transform = `translateX(${-position}px)`;
+        requestAnimationFrame(step);
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    function createAnimatedBackground() {
+      const container = document.getElementById("animatedBackground");
+      const numberOfWaves = 3;
+
+      for (let i = 0; i < numberOfWaves; i++) {
+        const wave = document.createElement("div");
+        wave.className = "wave";
+        container.appendChild(wave);
+
+        gsap.to(wave, {
+          x: "-50%",
+          repeat: -1,
+          duration: 15 + i * 2,
+          ease: "sine.inOut",
+          yoyo: true,
+        });
+
+        gsap.to(wave, {
+          y: i * 10 - 5 + "%",
+          repeat: -1,
+          duration: 10 + i * 2,
+          ease: "sine.inOut",
+          yoyo: true,
+        });
+      }
+    }
+
+    window.addEventListener("load", () => {
+      populateFeaturedJobs();
+      cloneCarouselItems();
+      animateCarousel();
+      createAnimatedBackground();
+    });
+
+    function animateHeroSection() {
+      const careerPaths = [
+        "Technology",
+        "Healthcare",
+        "Education",
+        "Business",
+        "Arts",
+        "Science",
+      ];
+      let currentPath = 0;
+      const careerPathElement = document.getElementById("careerPath");
+      const heroTitleElement = document.getElementById("heroTitle");
+      const careerImageElement = document.getElementById("careerImage");
+
+      function updateCareerPath() {
+        gsap.to(careerPathElement, {
+          opacity: 0,
+          y: -20,
+          duration: 0.5,
+          onComplete: () => {
+            currentPath = (currentPath + 1) % careerPaths.length;
+            careerPathElement.textContent = careerPaths[currentPath];
+            gsap.to(careerPathElement, {
+              opacity: 1,
+              y: 0,
+              duration: 0.5,
+            });
+          },
+        });
+      }
+
+      gsap.from(heroTitleElement, {
+        opacity: 0,
+        y: -20,
+        duration: 0.5,
+      });
+      gsap.from(careerPathElement, {
+        opacity: 0,
+        y: 20,
+        duration: 0.5,
+        delay: 0.2,
+      });
+      gsap.from(careerImageElement, {
+        opacity: 0,
+        scale: 0.8,
+        duration: 0.5,
+        delay: 0.4,
+      });
+
+      setInterval(updateCareerPath, 3000);
+    }
+
+    function populateStudentReviews() {
+      const reviewsData = [
+        {
+          content:
+            "The job portal helped me find my first internship! It's an amazing resource for high school students.",
+          author: "Emily S.",
+        },
+        {
+          content:
+            "I love how easy it is to browse through job opportunities tailored for students like me.",
+          author: "Michael T.",
+        },
+        {
+          content:
+            "Thanks to this portal, I discovered my passion for graphic design through a summer job.",
+          author: "Sarah L.",
+        },
+        {
+          content:
+            "The resources provided here have been invaluable in preparing me for job interviews.",
+          author: "David R.",
+        },
+        {
+          content:
+            "I found a great part-time job that fits perfectly with my school schedule. Highly recommended!",
+          author: "Jessica M.",
+        },
+        {
+          content:
+            "The variety of job listings is impressive. There's something for everyone!",
+          author: "Alex K.",
+        },
+        {
+          content:
+            "This platform made my job search so much easier and less stressful.",
+          author: "Olivia P.",
+        },
+        {
+          content:
+            "I appreciate how the portal connects students with local businesses. It's a win-win for everyone.",
+          author: "Ryan H.",
+        },
+      ];
+
+      const reviewSlideshow = document.getElementById("reviewSlideshow");
+      reviewsData.forEach((review, index) => {
+        if (index % 2 === 0) {
+          const slideWrapper = document.createElement("div");
+          slideWrapper.classList.add("review-slide");
+          slideWrapper.style.display = "flex";
+          reviewSlideshow.appendChild(slideWrapper);
+        }
+
+        const reviewWidget = document.createElement("div");
+        reviewWidget.classList.add("review-widget");
+        reviewWidget.innerHTML = `
+          <div class="review-content">
+            <p>${review.content}</p>
+            <p class="review-author">- ${review.author}</p>
+          </div>
+        `;
+        reviewSlideshow.lastElementChild.appendChild(reviewWidget);
+      });
+
+      initializeReviewSlideshow();
+    }
+
+    function initializeReviewSlideshow() {
+      const slideshow = document.querySelector(".review-slideshow-inner");
+      const slides = document.querySelectorAll(".review-slide");
+      const dots = document.querySelectorAll(".dot");
+      let currentIndex = 0;
+
+      function showSlide(index) {
+        slideshow.style.transform = `translateX(-${index * 100}%)`;
+        dots.forEach((dot, i) => {
+          dot.classList.toggle("active", i === index);
+        });
+      }
+
+      function nextSlide() {
+        currentIndex = (currentIndex + 1) % slides.length;
+        showSlide(currentIndex);
+      }
+
+      function prevSlide() {
+        currentIndex =
+          (currentIndex - 1 + slides.length) % slides.length;
+        showSlide(currentIndex);
+      }
+
+      dots.forEach((dot, index) => {
+        dot.addEventListener("click", () => {
+          currentIndex = index;
+          showSlide(currentIndex);
+        });
+      });
+    }
+
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        document.querySelector(".loader-container").style.display = "none";
+        document.querySelector("body").style.overflow = "visible";
+        populateFeaturedJobs();
+        cloneCarouselItems();
+        animateCarousel();
+        createAnimatedBackground();
+        animateHeroSection();
+        populateStudentReviews();
+      }, 3000); // 3 seconds
+    });
+  </script>
+</body>
+</html>
